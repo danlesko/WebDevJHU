@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    font-size: 20px;
+}
+
+.main {
+    margin-left: 1%;
+}
+
+.header-image {
+    /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
+    width: 100%;
+}
