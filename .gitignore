@@ -37,3 +37,6 @@ local.properties
 
 #Fuck Mac
 *.DS_Store
+
+#All Example Classwork Code
+example*
