@@ -34,3 +34,6 @@ local.properties
 
 #Class submission format
 *.zip
+
+#Fuck Mac
+*.DS_Store
