@@ -31,3 +31,6 @@ local.properties
 
 #WebStorm Settings
 *.idea
+
+#Class submission format
+*.zip
