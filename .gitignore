@@ -40,3 +40,6 @@ local.properties
 
 #All Example Classwork Code
 example*
+
+#PDF ... No idea why professor can't just look at raw jpegs
+*.pdf
