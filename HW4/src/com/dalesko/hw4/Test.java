@@ -5,19 +5,17 @@ import java.util.LinkedList;
 
 public class Test {
 	
-	/** Creates a new instance of Main */
     public Test() {
     }
 
-    /**
-     * @param args the command line arguments
-     */
 	public static void main(String[] args) {
 		
+		// Create ArrayList to hold the different types of military vehicle objects
 		ArrayList<Destroyer> destroyers = new ArrayList<Destroyer>();
 		ArrayList<Submarine> submarines = new ArrayList<Submarine>();
 		ArrayList<P3> p3s = new ArrayList<P3>();
 		
+		// Create Linked List to Store Contacts and Ship objects
 		LinkedList<Ship> ships = new LinkedList<Ship>();
 		LinkedList<Contact> contacts = new LinkedList<Contact>();
 		
@@ -39,7 +37,6 @@ public class Test {
 		p3s.add(p2);
 		p2.setAltitude(1000);
 		p2.setSpeed(500);
-		
 		
 		ships.add(s1);
 		ships.add(s2);
