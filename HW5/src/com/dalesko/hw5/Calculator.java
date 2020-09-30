@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -76,12 +77,12 @@ public class Calculator extends JFrame implements ActionListener{
 	JLabel jLabelHtml = new JLabel(tableHtml);
 	
 	// Create label for the text fields
-	private final JLabel startDateLabel = new JLabel("Start Date: ");
-    private final JLabel endDateLabel = new JLabel("End Date: ");
+	private final JLabel startDateLabel = new JLabel("Start Date (YYYY-MM-DD): ");
 	
     // Create sub panels for the border layout
     private final JPanel northPanel = new JPanel();
 	private final JPanel westPanel = new JPanel();
+	private final JPanel eastPanel = new JPanel();
 	private final JPanel centerPanel = new JPanel();
 	
 	// Create array of string containing hikes
@@ -91,12 +92,18 @@ public class Calculator extends JFrame implements ActionListener{
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	private final JComboBox hikesComboBox = new JComboBox(hikes); 
     
+    // Create array of string containing hikes
+    private final String hikeLengths[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" }; 
+
+    // Create drop down of hikes
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private final JComboBox hikeLengthsComboBox = new JComboBox(hikeLengths); 
+    
     // Create button to calculate total
     private final JButton calculateButton = new JButton("Calculate");
     
     // Create two text fields with a simple date format
     private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    private final JFormattedTextField dateTextFieldWest = new JFormattedTextField(df);
     private final JFormattedTextField dateTextFieldCenter = new JFormattedTextField(df);
     
     /** Creates a new instance of Main */
@@ -105,36 +112,35 @@ public class Calculator extends JFrame implements ActionListener{
     	// Set constructor with a valuable application title
         super("Bear Tooth Hiking Company Rate Calculator");
         
+        setFocusableWindowState(true);
+        
         // Add the HTML table to the top of the window
         northPanel.add(jLabelHtml);
         add(northPanel, BorderLayout.NORTH);
         
-        // Add components to west sub-panel and add it to west side of application
-        westPanel.add(startDateLabel);
-        dateTextFieldWest.setColumns(8);
-        westPanel.add(dateTextFieldWest);
+        // Add west panel layout
+        westPanel.add(hikesComboBox);
         add(westPanel, BorderLayout.WEST);
         
-        // Add components to center sub-panel and add it to center side of application
-        centerPanel.add(endDateLabel);
+        // Add east panel to layout
+        eastPanel.add(hikeLengthsComboBox);
+        add(eastPanel, BorderLayout.EAST);
+        
+        // Add components to west sub-panel and add it to west side of application
+        centerPanel.add(startDateLabel);
         dateTextFieldCenter.setColumns(8);
         centerPanel.add(dateTextFieldCenter);
         add(centerPanel, BorderLayout.CENTER);
         
-        df.setLenient(false);
-        
         // Use a MaskFormatter to show the placeholder chars
         // https://stackoverflow.com/questions/4252257/jformattedtextfield-with-maskformatter
+        df.setLenient(false);
         try {
-            MaskFormatter dateMask = new MaskFormatter("yyyy-MM-dd");
-            dateMask.install(dateTextFieldWest);
+            MaskFormatter dateMask = new MaskFormatter("####-##-##");
             dateMask.install(dateTextFieldCenter);
         } catch (ParseException ex) {
         	System.out.println("Parse exception: " + ex);
         }
-        
-        // Add drop down to east side of layout
-        add(hikesComboBox, BorderLayout.EAST);
         
         // Add calculate button to bottom of layout
         add(calculateButton, BorderLayout.SOUTH);
@@ -159,13 +165,24 @@ public class Calculator extends JFrame implements ActionListener{
      * @param e the event
      */
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
-		Date startDate = (Date)dateTextFieldWest.getValue();
-		Date endDate = (Date)dateTextFieldCenter.getValue();
+	    // Get the hike duration
+	    int hikeDuration = getIndex((String)hikeLengthsComboBox.getSelectedItem(), hikeLengths);
+	    
+	    // Initialize start and end dates
+		Date startDate = (Date)dateTextFieldCenter.getValue();
+		Calendar calStartDate = toCalendar(startDate);
+		calStartDate.add(Calendar.DAY_OF_MONTH, hikeDuration);
+		Date endDate = calStartDate.getTime();
+		
+		// Get selected hike
 		String selectedHike = (String)hikesComboBox.getSelectedItem();
+		
+		// Initialize BookingDay startDay and endDay to use with Rates class
 		BookingDay startDay = null;
 		BookingDay endDay = null;
+		
+		// Initialize notificationStr
 		String notificationStr = "";
 		
 		// Parse the start and end date fields
@@ -256,6 +273,16 @@ public class Calculator extends JFrame implements ActionListener{
 		    }
 		}
 		return index;
+	}
+	
+	/** Gets index of a string in an array of strings
+    *
+    * @param date to be converted
+    */
+	public static Calendar toCalendar(Date date){ 
+		  Calendar cal = Calendar.getInstance();
+		  cal.setTime(date);
+		  return cal;
 	}
     
 }
