@@ -19,14 +19,16 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
-import com.dalesko.hw6.Rates.HIKE;
-
 /**
  *
  * @author dlesko1
  */
 public class Calculator extends JFrame implements ActionListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Create String of HTML and add it to a JLabel
 	private static String tableHtml = "<html>" + 
 			"    <table cellspacing=3 cellpadding=3 rules=groups>\r\n" + 
@@ -178,48 +180,8 @@ public class Calculator extends JFrame implements ActionListener{
 		// Get selected hike
 		String selectedHike = (String)hikesComboBox.getSelectedItem();
 		
-		// Initialize BookingDay startDay and endDay to use with Rates class
-		BookingDay startDay = null;
-		BookingDay endDay = null;
-		
 		// Initialize notificationStr
 		String notificationStr = "";
-		
-		// Parse the start and end date fields
-		try {
-			startDay = new BookingDay(startDate.getYear()+1900,startDate.getMonth()+1,startDate.getDay()+1);
-		} catch (NullPointerException e1) {
-			JOptionPane.showMessageDialog(null,
-				    "You made an error entering the start date!");
-			return;
-		}
-		
-		try {
-			endDay = new BookingDay(endDate.getYear()+1900,endDate.getMonth()+1,endDate.getDay()+1);
-		} catch (NullPointerException e2) {
-			JOptionPane.showMessageDialog(null,
-				    "You made an error entering the end date!");
-			return;
-		}
-		
-		// If not valid days, show error message, otherwise append info to notificationStr
-//		if (!startDay.isValidDate()) {
-//			JOptionPane.showMessageDialog(null,
-//				    startDay + " is not a valid start day.");
-//			return;
-//		}
-//		else {
-//			notificationStr = notificationStr.concat("Start Day: " + startDay + "\n");
-//		}
-//		if (!endDay.isValidDate()) {
-//			JOptionPane.showMessageDialog(null,
-//				    endDay + " is not a valid end day.");
-//			return;
-//		}
-//		else {
-//			notificationStr = notificationStr.concat("End Day: " + endDay + "\n");
-//		}
-		
 		
 		// Calculate the duration in days
 		long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
@@ -228,20 +190,10 @@ public class Calculator extends JFrame implements ActionListener{
 	    // Get the index of the selected hike from the hikes array
 	    int hikeIndex = getIndex(selectedHike, hikes);
 	    
-	    // Create a new Rates object and instantiate it with the type of hike chosen
-//	    Rates rates = new Rates(HIKE.values()[hikeIndex]);
-//		rates.setBeginDate(startDay);
-//		rates.setEndDate(endDay);
-//        boolean success = rates.setDuration((int)diff);
+	    // 
+	    //System.out.println(hikeIndex + ":" + ((int)startDate.getYear()+1900) + ":" + ((int)startDate.getMonth()+1) + ":" + ((int)startDate.getDate()) + ":" + Integer.toString((int)diff));
         
-     // If not valid dates, show details 
-//        if(!rates.isValidDates()) {
-//        	JOptionPane.showMessageDialog(null,
-//				    "The dates chosen are invalid! " + rates.getDetails());
-//			return;
-//        }
-        
-        BHCRateClient rateClient = new BHCRateClient(hikeIndex, startDate.getYear()+1900, startDate.getMonth()+1, startDate.getDay()+1, (int)diff);
+        BHCRateClient rateClient = new BHCRateClient(hikeIndex, ((int)startDate.getYear()+1900), ((int)startDate.getMonth()+1), ((int)startDate.getDate()), (int)diff);
         rateClient.connect();
         
         String response = rateClient.getResponse();
@@ -254,24 +206,14 @@ public class Calculator extends JFrame implements ActionListener{
         } else {
         	notificationStr = notificationStr.concat("Start Date: " + startDate.toString() + "\n");
         	notificationStr = notificationStr.concat("Total Days: " + (int)diff + "\n");
-        	notificationStr = notificationStr.concat("Costs: " + responseTokens[0] + "\n");
+        	notificationStr = notificationStr.concat("Costs: $" + responseTokens[0] + "\n");
         }
         
-        // If not success, show the error dialog, otherwise append hike information to the notificationStr
-//        if(!success) {
-//        	JOptionPane.showMessageDialog(null,
-//				    "The duration chosen is invalid!");
-//			return;
-//        }
-//        else {
-//        	notificationStr = notificationStr.concat("Weekdays: " + rates.getNormalDays() + "\n");
-//        	notificationStr = notificationStr.concat("Weekends: " + rates.getPremiumDays() + "\n");
-//        	notificationStr = notificationStr.concat("Costs: " + response + "\n");
-//		}
-        
         // Launch dialog window displaying details
-		JOptionPane.showMessageDialog(null,
-				notificationStr);
+        if (!notificationStr.equals("")) {
+			JOptionPane.showMessageDialog(null,
+					notificationStr);
+        }
 	}
 	
 	/** Gets index of a string in an array of strings
