@@ -12,8 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,59 +31,86 @@ public class BHCServlet extends HttpServlet {
 	
 	private static String[] hikeNames = {"Gardiner Lake", "Hellroaring Plateau", "The Beaten Path"};
 	
+	private static String htmlSetup = "<!doctype html>\n" + 
+			"\n" + 
+			"<html lang=\"en\">";
+	
+	private static String htmlHead = "<head>\n" + 
+			"    <link rel=\"shortcut icon\" href=\"images/logo.png\" type=\"image/x-icon\">\n" + 
+			"    <meta charset=\"utf-8\">\n" + 
+			"    <!-- CSS only -->\n" + 
+			"    <link rel=\"stylesheet\" href=\"css/styles.css\">\n" + 
+			"    <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" + 
+			"\n" + 
+			"    <!-- JS, Popper.js, and jQuery -->\n" + 
+			"    <script src=\"https://code.jquery.com/jquery-3.5.1.slim.min.js\" integrity=\"sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj\" crossorigin=\"anonymous\"></script>\n" + 
+			"    <script src=\"https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js\" integrity=\"sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN\" crossorigin=\"anonymous\"></script>\n" + 
+			"    <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\" integrity=\"sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV\" crossorigin=\"anonymous\"></script>\n" + 
+			"    <title>The Beartooth Hiking Company (BHC)</title>\n" + 
+			"    <meta name=\"description\" content=\"The Beartooth Hiking Company (BHC)\">\n" + 
+			"\n" + 
+			"</head>";
+	
+	private static String htmlNav = "<nav class=\"navbar navbar-expand-sm bg-dark navbar-dark fixed-top\">\n" + 
+			"    <a class=\"navbar-brand\" href=\"#\"><img class=\"header-image\" src=\"images/logo.png\" alt=\"Beartooth\"/></a>\n" + 
+			"    <ul class=\"navbar-nav\">\n" + 
+			"        <li class=\"nav-item\">\n" + 
+			"            <a class=\"nav-link\" href=\"./\" target=\"_blank\">Home</a>\n" + 
+			"        </li>\n" + 
+			"        <li class=\"nav-item\">\n" + 
+			"            <a class=\"nav-link\" href=\"https://www.nps.gov/findapark/index.htm\" target=\"_blank\">Find Other Parks</a>\n" + 
+			"        </li>\n" + 
+			"        <li class=\"nav-item\">\n" + 
+			"            <a class=\"nav-link\" href=\"https://www.fs.usda.gov/recarea/shoshone/recarea/?recid=80899\" target=\"_blank\">More Info</a>\n" + 
+			"        </li>\n" + 
+			"    </ul>\n" + 
+			"</nav>";
+	
 	private static String tableHtml = "<h3>Hiking Tours</h3>\n" + 
 			"    <ul>\n" + 
 			"        <li>Gardiner Lake</li>\n" + 
 			"        <li>Hellroaring Plateau</li>\n" + 
 			"        <li>The Beaten Path</li>\n" + 
 			"    </ul>\n" + 
-			"    <br/>\n" + 
+			"\n" + 
 			"    <h3>Tour Options</h3>\n" + 
-			"    <table border=2 cellspacing=3 cellpadding=3 rules=groups>\n" + 
-			"        <colgroup span=2></colgroup>\n" + 
-			"        <colgroup span=2></colgroup>\n" + 
-			"        <thead>\n" + 
-			"        <tr>\n" + 
-			"            <td colspan=2 rowspan=2></td>\n" + 
-			"            <th colspan=2 align=center>Options</th>\n" + 
-			"            <th colspan=2 ></th>\n" + 
-			"        </tr>\n" + 
-			"        <tr>\n" + 
-			"            <th>Duration</th>\n" + 
-			"            <th>Intensity</th>\n" + 
-			"            <th colspan=2 align=center>Pricing Per Day</th>\n" + 
-			"        </tr>\n" + 
-			"        </thead>\n" + 
-			"        <tbody>\n" + 
-			"        <tr align=center>\n" + 
-			"          <th rowspan=4></th>\n" + 
-			"          <th>Gardiner Lake</th>\n" + 
-			"          <td>3 or 5</td>\n" + 
-			"          <td>Intermediate</td>\n" + 
-			"          <td>$40</td>\n" + 
-			"          <td></td>\n" + 
-			"        </tr>\n" + 
-			"        <tr align=center>\n" + 
-			"          <th>Hellroaring Plateau</th>\n" + 
-			"          <td>2, 3, or 5</td>\n" + 
-			"          <td>Easy</td>\n" + 
-			"          <td>$35</td>\n" + 
-			"          <td></td>\n" + 
-			"        </tr>\n" + 
-			"        <tr align=center>\n" + 
-			"          <th>The Beaten Path</th>\n" + 
-			"          <td>5 or 7</td>\n" + 
-			"          <td>Difficult</td>\n" + 
-			"          <td>$45</td>\n" + 
-			"          <td></td>\n" + 
-			"        </tr>\n" + 
-			"        </tbody>\n" + 
-			"        <tfoot>\n" + 
-			"        <tr>\n" + 
-			"            <td colspan=6 align=center>Note: All hikes have a 50% surcharge for Sat/Sun hikes.</td>\n" + 
-			"        </tr>\n" + 
-			"        </tfoot>\n" + 
-			"    </table>";
+			"    <div class=\"table-size\">\n" + 
+			"        <table class=\"table table-bordered table-striped table-responsive-md\" >\n" + 
+			"            <thead>\n" + 
+			"            <tr>\n" + 
+			"                <th></th>\n" + 
+			"                <th>Duration</th>\n" + 
+			"                <th>Intensity</th>\n" + 
+			"                <th>Pricing Per Day</th>\n" + 
+			"            </tr>\n" + 
+			"            </thead>\n" + 
+			"            <tbody>\n" + 
+			"            <tr class=\"table-warning\">\n" + 
+			"                <th>Gardiner Lake</th>\n" + 
+			"                <td>3 or 5</td>\n" + 
+			"                <td>Intermediate</td>\n" + 
+			"                <td>$40</td>\n" + 
+			"            </tr>\n" + 
+			"            <tr class=\"table-info\">\n" + 
+			"                <th>Hellroaring Plateau</th>\n" + 
+			"                <td>2, 3, or 5</td>\n" + 
+			"                <td>Easy</td>\n" + 
+			"                <td>$35</td>\n" + 
+			"            </tr>\n" + 
+			"            <tr class=\"table-danger\">\n" + 
+			"                <th>The Beaten Path</th>\n" + 
+			"                <td>5 or 7</td>\n" + 
+			"                <td>Difficult</td>\n" + 
+			"                <td>$45</td>\n" + 
+			"            </tr>\n" + 
+			"            </tbody>\n" + 
+			"            <tfoot>\n" + 
+			"            <tr class=\"table-primary\">\n" + 
+			"                <td colspan=4 class=\"table-footer-note\">Note: All hikes have a 50% surcharge for Sat/Sun hikes.</td>\n" + 
+			"            </tr>\n" + 
+			"            </tfoot>\n" + 
+			"        </table>\n" + 
+			"    </div>";
 
 	/**
      * Processes requests for HTTP <code>GET</code> method
@@ -172,31 +197,27 @@ public class BHCServlet extends HttpServlet {
 	            	notificationStr = notificationStr.concat("Chosen Hike: " + hikeNames[Integer.parseInt(hike)-1] + "<br>");
 	            	notificationStr = notificationStr.concat("Start Day: " + startDay + "\n<br />");
 	            	notificationStr = notificationStr.concat("End Day: " + endDay + "\n<br />");
-	            	notificationStr = notificationStr.concat("Weekdays: " + rates.getNormalDays() + "<br>");
-	            	notificationStr = notificationStr.concat("Weekends: " + rates.getPremiumDays() + "<br>");
+	            	notificationStr = notificationStr.concat("Weekdays: " + rates.getNormalDays() + " * $" + rates.getBaseRate() + " = $" + rates.getNormalDays()*rates.getBaseRate() +"<br>");
+	            	notificationStr = notificationStr.concat("Weekends: " + rates.getPremiumDays() + " * $" + rates.getPremiumRate() + " = $" + rates.getPremiumDays()*rates.getPremiumRate() + "<br>");
 	            	notificationStr = notificationStr.concat("Total Days: " + Integer.parseInt(duration) + "<br>");
 	            	notificationStr = notificationStr.concat("Costs: $" + rates.getCost() + "<br>");
 	    		}
             }
             
             // Format the HTML to be sent as a response. 
-            out.println("<!doctype html>");
-            out.println("<html lang=\"en\">");
-            out.println("<head>");
-            out.println("<meta charset=\"utf-8\">");
-            out.println("<title>The Beartooth Hiking Company (BHC)</title>");
-            out.println("<meta name=\"description\" content=\"The Beartooth Hiking Company (BHC)\">");
-            out.println("</head>");
+            out.println(htmlSetup);
+            out.println(htmlHead);
             out.println("<body>");
+            out.println(htmlNav);
+            out.println("<div class=\"main container-fluid\" style=\"margin-top:120px\">");
             out.println(tableHtml);
-            out.println("<br/>");
-            out.println("<br/>");
             out.println(getHtmlForm(hike,startDate,duration));
             out.println("<form action=\"./\">");
             out.println("<input type=\"submit\" value=\"Reset\" />");
             out.println("</form>");
-            out.println("<br/>");
+            out.println("<br />");
             out.println(notificationStr);
+            out.println("</div>");
             out.println("</body>");
             out.println("</html>");
 
