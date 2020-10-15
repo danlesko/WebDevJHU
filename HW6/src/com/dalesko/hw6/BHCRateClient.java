@@ -1,10 +1,3 @@
-/*
- * GetHeader.java
- * 
- * Created on Oct 15, 2007
- * Updated to Eclipse on June 22, 2019
- */
-
 package com.dalesko.hw6;
 
 import java.net.*;
@@ -12,7 +5,7 @@ import java.io.*;
 
 /**
  *
- * Sample program NetworkClient.java modified for HW6 to contact the "Beartooth Hiking Company's" Rate Calculator Server
+ * NetworkClient.java extended for HW6 to contact the "Beartooth Hiking Company's" Rate Calculator Server
  */
 public class BHCRateClient extends NetworkClient {
 	private int hike_id, begin_year, begin_month, begin_day, duration = 0;
@@ -29,23 +22,32 @@ public class BHCRateClient extends NetworkClient {
 		this.duration = duration;
 	}
 
+	// Override handleConnection to pass hike information to socket 
 	@Override
 	protected void handleConnection(Socket uriSocket) throws IOException {
+		// Initialize variables
 		String line;
 		BufferedReader in = null;
 		PrintWriter out = null;
 		try {
+			// Create IO for socket
 			in = new BufferedReader(new InputStreamReader(uriSocket.getInputStream()));
 			out = new PrintWriter(uriSocket.getOutputStream(), true);
+			
+			// Send hike query 
 			out.println(Integer.toString(hike_id)+":" +Integer.toString( begin_year)+":"
 					+Integer.toString(begin_month)+":"+Integer.toString(begin_day)+":"
 					+Integer.toString(duration));
+			
+			// Read in hike query
 			while ((line = in.readLine()) != null && line.length() != 0) {
 				setResponse(line);
 			}
 		} catch (IOException ioe) {
+			// Handle error
 			System.err.println("Problem in communicating with socket: " + ioe.getMessage());
 		} finally {
+			// Close streams
 			if (out != null)
 				out.close();
 			if (in != null)
@@ -53,9 +55,12 @@ public class BHCRateClient extends NetworkClient {
 		}
 	}
 	
+	// Get response
 	public String getResponse() {
 		return this.response;
 	}
+	
+	// Set response
 	public void setResponse(String response) {
 		this.response = response;
 	}

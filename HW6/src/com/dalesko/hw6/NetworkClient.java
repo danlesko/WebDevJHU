@@ -12,6 +12,7 @@ import java.io.*;
 
 /**
  * Sample code to demonstrate handling basic http requests
+ * https://webdev.jhuep.com/~spiegel/en605681/IO_Networking/NetworkProgramming.html
  */
 public class NetworkClient {
 

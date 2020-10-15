@@ -1,0 +1,100 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The Beartooth Hiking Company (BHC)</title>
+    <meta name="description" content="The Beartooth Hiking Company (BHC)">
+
+</head>
+
+<body>
+<div>
+    <h3>Hiking Tours</h3>
+    <ul>
+        <li>Gardiner Lake</li>
+        <li>Hellroaring Plateau</li>
+        <li>The Beaten Path</li>
+    </ul>
+    <br/>
+    <h3>Tour Options</h3>
+    <table border=2 cellspacing=3 cellpadding=3 rules=groups>
+        <colgroup span=2></colgroup>
+        <colgroup span=2></colgroup>
+        <thead>
+        <tr>
+            <td colspan=2 rowspan=2></td>
+            <th colspan=2 align=center>Options</th>
+            <th colspan=2 ></th>
+        </tr>
+        <tr>
+            <th>Duration</th>
+            <th>Intensity</th>
+            <th colspan=2 align=center>Pricing Per Day</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr align=center>
+          <th rowspan=4></th>
+          <th>Gardiner Lake</th>
+          <td>3 or 5</td>
+          <td>Intermediate</td>
+          <td>$40</td>
+          <td></td>
+        </tr>
+        <tr align=center>
+          <th>Hellroaring Plateau</th>
+          <td>2, 3, or 5</td>
+          <td>Easy</td>
+          <td>$35</td>
+          <td></td>
+        </tr>
+        <tr align=center>
+          <th>The Beaten Path</th>
+          <td>5 or 7</td>
+          <td>Difficult</td>
+          <td>$45</td>
+          <td></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan=6 align=center>Note: All hikes have a 50% surcharge for Sat/Sun hikes.</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<br/>
+<br/>
+<form action="BHCServlet" method=GET>
+		<label for="hike">Choose a hike:</label>
+		  <select name="hike" id="hike">
+		    <option value="1">Gardiner Lake</option>
+		    <option value="2">Hellroaring Plateau</option>
+		    <option value="3">The Beaten Path</option>
+		  </select>
+		  <br/>
+		<label for="start">Start date:</label>
+		<input type="date" id="startDate" name="startDate"
+		       value="2020-10-16"
+		       min="2020-01-01" max="2025-12-31">
+		    <br/>   
+		 <label for="duration">Choose a duration:</label>
+		  <select name="duration" id="hikes">
+		    <option value="1">1</option>
+		    <option value="2">2</option>
+		    <option value="3">3</option>
+		    <option value="4">4</option>
+		    <option value="5">5</option>
+		    <option value="6">6</option>
+		    <option value="7">7</option>
+		    <option value="8">8</option>
+		    <option value="9">9</option>
+		  </select>
+		<br /> 
+		
+		<input type="SUBMIT">
+</form>
+
+</body>
+</html>

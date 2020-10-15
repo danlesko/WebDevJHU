@@ -40,6 +40,8 @@ local.properties
 
 #All Example Classwork Code
 example*
+SampleServlet/
+Servers/
 
 #PDF ... No idea why professor can't just look at raw jpegs
 *.pdf
