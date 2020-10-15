@@ -162,10 +162,9 @@ public class BHCServlet extends HttpServlet {
 	            if(!rates.isValidDates()) {
 	            	notificationStr = notificationStr.concat(
 	    				    "The dates chosen are invalid! " + rates.getDetails() + "\n<br />");
-	            }
-	            
+	            } 
 	            // If not success, show the error dialog, otherwise append hike information to the notificationStr
-	            if(!success) {
+	            else if (!success) {
 	            	notificationStr = notificationStr.concat(
 	    				    "The duration chosen is invalid!" + "\n<br />");
 	            }
@@ -193,6 +192,9 @@ public class BHCServlet extends HttpServlet {
             out.println("<br/>");
             out.println("<br/>");
             out.println(getHtmlForm(hike,startDate,duration));
+            out.println("<form action=\"./\">");
+            out.println("<input type=\"submit\" value=\"Reset\" />");
+            out.println("</form>");
             out.println("<br/>");
             out.println(notificationStr);
             out.println("</body>");
