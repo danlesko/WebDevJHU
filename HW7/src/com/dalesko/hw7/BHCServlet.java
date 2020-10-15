@@ -29,12 +29,15 @@ public class BHCServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	// Create array of hike names for easy reference later
 	private static String[] hikeNames = {"Gardiner Lake", "Hellroaring Plateau", "The Beaten Path"};
 	
+	// Create top of HTML doc str
 	private static String htmlSetup = "<!doctype html>\n" + 
 			"\n" + 
 			"<html lang=\"en\">";
 	
+	// Create HTML head str
 	private static String htmlHead = "<head>\n" + 
 			"    <link rel=\"shortcut icon\" href=\"images/logo.png\" type=\"image/x-icon\">\n" + 
 			"    <meta charset=\"utf-8\">\n" + 
@@ -51,6 +54,7 @@ public class BHCServlet extends HttpServlet {
 			"\n" + 
 			"</head>";
 	
+	// Create HTML navbar str
 	private static String htmlNav = "<nav class=\"navbar navbar-expand-sm bg-dark navbar-dark fixed-top\">\n" + 
 			"    <a class=\"navbar-brand\" href=\"#\"><img class=\"header-image\" src=\"images/logo.png\" alt=\"Beartooth\"/></a>\n" + 
 			"    <ul class=\"navbar-nav\">\n" + 
@@ -66,13 +70,8 @@ public class BHCServlet extends HttpServlet {
 			"    </ul>\n" + 
 			"</nav>";
 	
-	private static String tableHtml = "<h3>Hiking Tours</h3>\n" + 
-			"    <ul>\n" + 
-			"        <li>Gardiner Lake</li>\n" + 
-			"        <li>Hellroaring Plateau</li>\n" + 
-			"        <li>The Beaten Path</li>\n" + 
-			"    </ul>\n" + 
-			"\n" + 
+	// Create html table str
+	private static String tableHtml = 
 			"    <h3>Tour Options</h3>\n" + 
 			"    <div class=\"table-size\">\n" + 
 			"        <table class=\"table table-bordered table-striped table-responsive-md\" >\n" + 
@@ -110,7 +109,8 @@ public class BHCServlet extends HttpServlet {
 			"            </tr>\n" + 
 			"            </tfoot>\n" + 
 			"        </table>\n" + 
-			"    </div>";
+			"    </div>" +
+			"<h5>Rate Calculator</h5>";
 
 	/**
      * Processes requests for HTTP <code>GET</code> method
@@ -159,10 +159,33 @@ public class BHCServlet extends HttpServlet {
             	notificationStr = notificationStr.concat("Error parsing date! Please enter date in yyyy-MM-dd format if your browser does not support the input date type." + "\n<br />");
     		} 
             
+            try {
+            	getSelectedHike(hike);
+            } catch (IndexOutOfBoundsException e) {
+            	hike = "1";
+            	notificationStr = notificationStr.concat("Failure to parse entered hike data. Setting to default."+ "\n");
+            } catch (NumberFormatException e) {
+            	hike = "1";
+            	notificationStr = notificationStr.concat("Failure to parse entered hike data. Setting to default."+ "\n");
+            }
+            
+            try {
+            	getSelectedDuration(duration);
+            } catch (IndexOutOfBoundsException e) {
+            	duration = "1";
+            	notificationStr = notificationStr.concat("Failure to parse entered duration data. Setting to default."+ "\n");
+            } catch (NumberFormatException e) {
+            	duration = "1";
+            	notificationStr = notificationStr.concat("Failure to parse entered duration data. Setting to default."+ "\n");
+            }
+            
             if(jStartDate != null) {
 	    		Calendar calStartDate = toCalendar(jStartDate);
 	    		calStartDate.add(Calendar.DAY_OF_MONTH, Integer.parseInt(duration));
 	    		Date endDate = calStartDate.getTime();
+	    		Date currentD = new Date();
+	    		Calendar currentDate = toCalendar(currentD);
+	    		int isFuture = calStartDate.compareTo(currentDate);
 	    		
 	    		// Parse the start and end date fields
 	    		try {
@@ -184,14 +207,22 @@ public class BHCServlet extends HttpServlet {
 	            boolean success = rates.setDuration(Integer.parseInt(duration));
 	            
 	            // If not valid dates, show details 
-	            if(!rates.isValidDates()) {
+	            if(isFuture != 1) {
+	            	notificationStr = notificationStr.concat(
+	    				    "The start date is not in the future! \n<br />");
+	            }
+	            else if(jStartDate.getYear()+1900 > 2025) {
+	            	notificationStr = notificationStr.concat(
+	    				    "You may not set a date that far in the future! (After 2025) \n<br />");
+	            }
+	            else if(!rates.isValidDates()) {
 	            	notificationStr = notificationStr.concat(
 	    				    "The dates chosen are invalid! " + rates.getDetails() + "\n<br />");
 	            } 
 	            // If not success, show the error dialog, otherwise append hike information to the notificationStr
 	            else if (!success) {
 	            	notificationStr = notificationStr.concat(
-	    				    "The duration chosen is invalid!" + "\n<br />");
+	    				    "Your query was not successful!" + "\n<br />");
 	            }
 	            else {
 	            	notificationStr = notificationStr.concat("Chosen Hike: " + hikeNames[Integer.parseInt(hike)-1] + "<br>");
@@ -286,7 +317,7 @@ public class BHCServlet extends HttpServlet {
     *
     * @param hike the selected hike
     */
-    public String getSelectedHike(String hike) {
+    public String getSelectedHike(String hike) throws IndexOutOfBoundsException, NumberFormatException {
     	Integer hikeIndex = Integer.parseInt(hike) - 1;
     	String selectedStr = "selected=\"selected\" ";
     	String[] values = {"<option value=\"1\">Gardiner Lake</option>",  
@@ -302,7 +333,7 @@ public class BHCServlet extends HttpServlet {
     *
     * @param duration the duration of the hike
     */
-    public String getSelectedDuration(String duration) {
+    public String getSelectedDuration(String duration) throws IndexOutOfBoundsException, NumberFormatException {
     	Integer durationIndex = Integer.parseInt(duration) - 1;
     	String selectedStr = "selected=\"selected\"";
     	String[] values = {"<option value=\"1\">1</option>",  
