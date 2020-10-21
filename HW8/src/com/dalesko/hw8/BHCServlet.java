@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.dalesko.hw7;
+package com.dalesko.hw8;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dalesko.hw7.Rates.HIKE;
+import com.dalesko.hw8.Rates.HIKE;
 
 
 @WebServlet(name = "BHCServlet", urlPatterns = {"/BHCServlet"})
@@ -49,6 +49,8 @@ public class BHCServlet extends HttpServlet {
 			"    <script src=\"https://code.jquery.com/jquery-3.5.1.slim.min.js\" integrity=\"sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj\" crossorigin=\"anonymous\"></script>\n" + 
 			"    <script src=\"https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js\" integrity=\"sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN\" crossorigin=\"anonymous\"></script>\n" + 
 			"    <script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js\" integrity=\"sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV\" crossorigin=\"anonymous\"></script>\n" + 
+			"<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>\n" + 
+			"    <script src=\"js/scripts.js\"></script>\n" +
 			"    <title>The Beartooth Hiking Company (BHC)</title>\n" + 
 			"    <meta name=\"description\" content=\"The Beartooth Hiking Company (BHC)\">\n" + 
 			"\n" + 
@@ -127,6 +129,7 @@ public class BHCServlet extends HttpServlet {
         String hike = null;
         String startDate = null;
         String duration = null;
+        String people = null;
         
         // Initialize notificationStr
 		String notificationStr = "";
@@ -142,15 +145,20 @@ public class BHCServlet extends HttpServlet {
         	
             hike = request.getParameter("hike");
             if (hike == null) {
-            	hike = "<none entered>";
+            	hike = "1";
             }
             startDate = request.getParameter("startDate");
             if (startDate == null) {
-            	startDate = "<none entered>";
+            	startDate = "2020-04-20";
             }
             duration = request.getParameter("duration");
             if (duration == null) {
-            	duration = "<none entered>";
+            	duration = "3";
+            }
+            
+            people = request.getParameter("people");
+            if (people == null) {
+            	people = "1";
             }
             
             try {
@@ -231,7 +239,9 @@ public class BHCServlet extends HttpServlet {
 	            	notificationStr = notificationStr.concat("Weekdays: " + rates.getNormalDays() + " * $" + rates.getBaseRate() + " = $" + rates.getNormalDays()*rates.getBaseRate() +"<br>");
 	            	notificationStr = notificationStr.concat("Weekends: " + rates.getPremiumDays() + " * $" + rates.getPremiumRate() + " = $" + rates.getPremiumDays()*rates.getPremiumRate() + "<br>");
 	            	notificationStr = notificationStr.concat("Total Days: " + Integer.parseInt(duration) + "<br>");
-	            	notificationStr = notificationStr.concat("Costs: $" + rates.getCost() + "<br>");
+	            	notificationStr = notificationStr.concat("Costs per person: $" + rates.getCost() + "<br>");
+	            	notificationStr = notificationStr.concat("Number of hikers: <span id=\"numHikers\"></span><br>");
+	            	notificationStr = notificationStr.concat("Total: $<span id=\"totalCost\">" + rates.getCost() + "</span><br>");
 	    		}
             }
             
@@ -242,12 +252,11 @@ public class BHCServlet extends HttpServlet {
             out.println(htmlNav);
             out.println("<div class=\"main container-fluid\" style=\"margin-top:120px\">");
             out.println(tableHtml);
-            out.println(getHtmlForm(hike,startDate,duration));
-            out.println("<form action=\"./\">");
-            out.println("<input type=\"submit\" value=\"Reset\" />");
-            out.println("</form>");
+            out.println(getHtmlForm(hike,startDate,duration,people));
             out.println("<br />");
+            out.println("<div id=\"results\">");
             out.println(notificationStr);
+            out.println("</div>");
             out.println("</div>");
             out.println("</body>");
             out.println("</html>");
@@ -289,7 +298,7 @@ public class BHCServlet extends HttpServlet {
     * @param date the selected date
     * @param duration the selected duration
     */
-    public String getHtmlForm(String hike, String date, String duration) {
+    public String getHtmlForm(String hike, String date, String duration, String people) {
     	String formHtml = String.format("<form action=\"BHCServlet\" method=GET>\n" + 
     			"		<label for=\"hike\">Choose a hike:</label>\n" + 
     			"		  <select name=\"hike\" id=\"hike\">\n" + 
@@ -302,14 +311,41 @@ public class BHCServlet extends HttpServlet {
     			"		       min=\"2020-01-01\" max=\"2025-12-31\">\n" + 
     			"		    <br/>   \n" + 
     			"		 <label for=\"duration\">Choose a duration:</label>\n" + 
-    			"		  <select name=\"duration\" id=\"hikes\">\n" + 
+    			"		  <select name=\"duration\" id=\"duration\">\n" + 
     			getSelectedDuration(duration) +
     			"		  </select>\n" + 
     			"		<br /> \n" + 
-    			"		\n" + 
-    			"		<input type=\"SUBMIT\">\n" + 
+    			"		\n" +"<label for=\"people\">Number of hikers:</label>\n" + 
+    			"<select name=\"people\" id=\"people\">\n" +
+    			getSelectedPeople(people) +
+    					"		  </select>\n" + 
+    					"		<br /> " +
+    			"		<input type=\"SUBMIT\">\n" + "<input type=\"reset\">\n" + 
     			"</form>", date);
     	return formHtml;
+    }
+    
+    /** Gets options for selected hike
+    *
+    * @param hike the selected hike
+    */
+    public String getSelectedPeople(String people) throws IndexOutOfBoundsException, NumberFormatException {
+    	Integer peopleIndex = Integer.parseInt(people) - 1;
+    	String selectedStr = "selected=\"selected\" ";
+    	String[] values = {"<option value=\"1\">1</option>\n",
+    			"<option value=\"2\">2</option>\n",
+    			"<option value=\"3\">3</option>\n",
+    			"<option value=\"4\">4</option>\n",
+    			"<option value=\"5\">5</option>\n",
+    			"<option value=\"6\">6</option>\n",
+    			"<option value=\"7\">7</option>\n",
+    			"<option value=\"8\">8</option>\n",
+    			"<option value=\"9\">9</option>\n",
+    			"<option value=\"10\">10</option>\n",};
+
+    	values[peopleIndex] = values[peopleIndex].substring(0,8) + selectedStr + values[peopleIndex].substring(8,values[peopleIndex].length());
+
+    	return String.join("", values);
     }
     
     
