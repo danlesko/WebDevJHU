@@ -2,10 +2,14 @@
 $( document ).ready(function() {
     
 
+	// Get the selected hike value
 	var selectedHike = $("select#hike").val();
 	
 
-	function disableDuration(n){
+	// function to disable duration options based on hike
+	function disableDuration(hike){
+
+		// reset the list each time function is called
 		$("select#duration option").each(function() {
 		    var $thisOption = $(this);
 
@@ -13,8 +17,8 @@ $( document ).ready(function() {
 
 		});
 
-
-		switch(parseInt(n)) {
+		// based on hike, disable duration options 
+		switch(parseInt(hike)) {
 		  case 1:
 		    $("select#duration option").each(function() {
 			    var $thisOption = $(this);
@@ -47,19 +51,25 @@ $( document ).ready(function() {
 		}
 	}
 
+	// call this function once on page load
 	disableDuration(selectedHike);
 
+	// listen for a change on the hike select
 	$('select#hike').on('change', function() {
 	  disableDuration( this.value );
 	});
 	
+	// get these DOM elements if they exist
 	var totalCost = parseInt($("#totalCost").text());
 	var numHikers = parseInt($("select#people").val());
 	
+	// set the totalCost
+	// this is really silly to do client side but figured I would just for this assignment
 	if(totalCost){
 		$("#totalCost").text(totalCost*numHikers);
 	}
 	
+	// set the numHikers
 	if(numHikers){
 		$("#numHikers").text(numHikers);
 	}

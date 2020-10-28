@@ -61,7 +61,7 @@ public class BHCServlet extends HttpServlet {
 			"    <a class=\"navbar-brand\" href=\"#\"><img class=\"header-image\" src=\"images/logo.png\" alt=\"Beartooth\"/></a>\n" + 
 			"    <ul class=\"navbar-nav\">\n" + 
 			"        <li class=\"nav-item\">\n" + 
-			"            <a class=\"nav-link\" href=\"./\" target=\"_blank\">Home</a>\n" + 
+			"            <a class=\"nav-link\" href=\"./\">Home</a>\n" + 
 			"        </li>\n" + 
 			"        <li class=\"nav-item\">\n" + 
 			"            <a class=\"nav-link\" href=\"https://www.nps.gov/findapark/index.htm\" target=\"_blank\">Find Other Parks</a>\n" + 
