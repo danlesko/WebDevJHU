@@ -197,6 +197,7 @@ public class Calculator extends JFrame implements ActionListener{
         rateClient.connect();
         
         String response = rateClient.getResponse();
+        System.out.println(response);
         
         String[] responseTokens = response.split(":");
         

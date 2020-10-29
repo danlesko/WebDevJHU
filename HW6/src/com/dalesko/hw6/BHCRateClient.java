@@ -14,7 +14,7 @@ public class BHCRateClient extends NetworkClient {
 	// Constructor that accepts hike ID, date (year, month, day), and duration
 	public BHCRateClient(int hike_id, int begin_year, int begin_month, int begin_day, int duration) {
 		// Static for the BHC
-		super("web6.jhuep.com", 20025);
+		super("web6.jhuep.com", 20013);
 		this.hike_id = hike_id;
 		this.begin_year = begin_year;
 		this.begin_month = begin_month;

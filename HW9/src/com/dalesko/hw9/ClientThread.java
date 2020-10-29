@@ -104,7 +104,7 @@ public class ClientThread extends Thread {
     	    		}
     	    	    
     	    	    // Create a new Rates object and instantiate it with the type of hike chosen
-    	    	    Rates rates = new Rates(HIKE.values()[Integer.parseInt(hike)-1]);
+    	    	    Rates rates = new Rates(HIKE.values()[Integer.parseInt(hike)]);
     	    		rates.setBeginDate(startDay);
     	    		rates.setEndDate(endDay);
     	            boolean success = rates.setDuration(Integer.parseInt(duration));
