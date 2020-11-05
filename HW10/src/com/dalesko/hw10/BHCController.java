@@ -39,7 +39,7 @@ public class BHCController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         ServletContext servletContext = getServletContext();
         RequestDispatcher dispatcher = null;
-        HikeInfo hikeInfo = (HikeInfo) request.getAttribute("hikeInfo");
+        HikeInfo hikeInfo = new HikeInfo();
         
         String hike = null;
         String startDate = null;
@@ -141,7 +141,7 @@ public class BHCController extends HttpServlet {
             	dispatcher = servletContext.getRequestDispatcher("/results.jsp");
     		}
             
-            // If an error message has been set
+            // If an error message has been set, set the bean
             if(!errStr.equals("")) {
             	System.out.println(errStr);
             	hikeInfo.setErrStr("hey");

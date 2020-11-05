@@ -2,9 +2,8 @@
     pageEncoding="UTF-8"%>
 <!doctype html>
 
-<jsp:useBean id="hikeInfo" class="com.dalesko.hw10.HikeInfo"/>
-
 <html lang="en">
+<jsp:useBean id="hikeinfo" class="com.dalesko.hw10.HikeInfo" scope="session"/>
 <%@ include file="header.jsp" %>
 
 <body>
@@ -13,8 +12,6 @@
 
     <%@ include file="options.jsp" %>
     <%@ include file="calculator.jsp" %>
-    
-    <h3>Error: <jsp:getProperty name="hikeInfo" property="errStr" /></h3>
 </div>
 </body>
 </html>
