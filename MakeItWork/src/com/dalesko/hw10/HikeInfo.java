@@ -28,9 +28,6 @@ public class HikeInfo {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
-        if (startDate.equals("foo")) {
-           success = true;            
-        }
     }
     
     public boolean getSuccess() {

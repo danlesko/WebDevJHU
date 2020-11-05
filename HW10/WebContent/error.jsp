@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <!doctype html>
 
-<jsp:useBean id="hikeInfo" class="com.dalesko.hw10.HikeInfo"/>
+<jsp:useBean id="hikeInfo" class="com.dalesko.hw10.HikeInfo" scope="session" />
+	
 
 <html lang="en">
 <%@ include file="header.jsp" %>

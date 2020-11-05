@@ -22,8 +22,10 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/BHCController")	
 public class BHCController extends HttpServlet {
-    public static final String HIKE = 	   "";
+    public static final String HIKE      = "";
     public static final String STARTDATE = "";
+    public static final String DURATION  = "";
+    public static final String PEOPLE    = "";
     /** 
     * Processes requests for  HTTP <code>GET</code> method.
     * @param request servlet request
@@ -45,13 +47,10 @@ public class BHCController extends HttpServlet {
             String startDate = request.getParameter(STARTDATE);
             login.setHike(hike);
             login.setStartDate(startDate);
-            if (login.getSuccess()) {
-                RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/welcome.jsp");
-                dispatcher.forward(request, response);
-            } else {
-                RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/login.jsp");
-                dispatcher.forward(request, response);
-            }
+            
+            //
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/welcome.jsp");
+            dispatcher.forward(request, response);
         }
     } 
 

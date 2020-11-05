@@ -143,8 +143,8 @@ public class BHCController extends HttpServlet {
             
             // If an error message has been set, set the bean
             if(!errStr.equals("")) {
-            	System.out.println(errStr);
-            	hikeInfo.setErrStr("hey");
+            	hikeInfo.setErrStr(errStr);
+            	System.out.println(hikeInfo.getErrStr());
             }
         }
         

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <!doctype html>
 <h5>Rate Calculator</h5>
-    <form action="BHCController" method=GET>
+    <form action="BHCController" method=POST>
 		<label for="hike">Choose a hike:</label>
 		  <select name="hike" id="hike">
 		    <option value="1">Gardiner Lake</option>
