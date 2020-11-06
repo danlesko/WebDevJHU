@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/Controller")	
 public class Controller extends HttpServlet {
-    public static final String LOGIN="login";
+    public static final String HIKE= "hike";
     public static final String PASSWORD = "password";
     /** 
     * Processes requests for  HTTP <code>GET</code> method.
@@ -34,14 +34,14 @@ public class Controller extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         ServletContext servletContext = getServletContext();
-        HikeInfo hikeInfo = (HikeInfo) session.getAttribute(LOGIN);
+        HikeInfo hikeInfo = (HikeInfo) session.getAttribute(HIKE);
         if (hikeInfo == null) {
             hikeInfo = new HikeInfo();
-            session.setAttribute(LOGIN, hikeInfo);
+            session.setAttribute(HIKE, hikeInfo);
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/login.jsp");
             dispatcher.forward(request, response);
         } else {
-            String name = request.getParameter(LOGIN);
+            String name = request.getParameter(HIKE);
             String password = request.getParameter(PASSWORD);
             hikeInfo.setName(name);
             hikeInfo.setPassword(password);

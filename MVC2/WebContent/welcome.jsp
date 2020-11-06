@@ -12,9 +12,9 @@
     <head>
 		<meta charset="ISO-8859-1">
         <title>Succesful login!</title>
-        <jsp:useBean id="login" class="com.dalesko.hw10.HikeInfo" scope="session" />        
+        <jsp:useBean id="hike" class="com.dalesko.hw10.HikeInfo" scope="session" />        
     </head>
     <body>
-        <h2>You are logged in as user <jsp:getProperty name="login" property="name" /></h2>
+        <h2>You are logged in as user <jsp:getProperty name="hike" property="name" /></h2>
     </body>
 </html>

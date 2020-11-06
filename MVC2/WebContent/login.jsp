@@ -12,19 +12,19 @@
     <head>
 		<meta charset="ISO-8859-1">
         <title>Login JSP Page</title>
-        <jsp:useBean id="login" class="com.dalesko.hw10.HikeInfo" scope="session" />
+        <jsp:useBean id="hike" class="com.dalesko.hw10.HikeInfo" scope="session" />
     </head>
     <body>
         <h2>Welcome to MVC Model 2 demo</h2>
         <% 
-        if (login.getName() != null) {
+        if (hike.getName() != null) {
         %>
         Incorrect password, please try again <br />
         <%    
         }
         %>
         <form action="http://localhost:8080/MVC2/Controller" method=GET>
-            userid: <input type="TEXT" name="login"> <br />
+            userid: <input type="TEXT" name="hike"> <br />
             password:  <input type="password" name="password"> <br />
             <input type="SUBMIT">
         </form>
