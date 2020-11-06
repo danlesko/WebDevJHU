@@ -9,7 +9,7 @@ package com.dalesko.hw10;
  *
  * @author spiegel
  */
-public class Login {
+public class HikeInfo {
     private String name = null;
     private String password = null;
     private boolean success = false;

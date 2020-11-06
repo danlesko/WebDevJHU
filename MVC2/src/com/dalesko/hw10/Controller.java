@@ -34,18 +34,18 @@ public class Controller extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         ServletContext servletContext = getServletContext();
-        Login login = (Login) session.getAttribute(LOGIN);
-        if (login == null) {
-            login = new Login();
-            session.setAttribute(LOGIN, login);
+        HikeInfo hikeInfo = (HikeInfo) session.getAttribute(LOGIN);
+        if (hikeInfo == null) {
+            hikeInfo = new HikeInfo();
+            session.setAttribute(LOGIN, hikeInfo);
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/login.jsp");
             dispatcher.forward(request, response);
         } else {
             String name = request.getParameter(LOGIN);
             String password = request.getParameter(PASSWORD);
-            login.setName(name);
-            login.setPassword(password);
-            if (login.getSuccess()) {
+            hikeInfo.setName(name);
+            hikeInfo.setPassword(password);
+            if (hikeInfo.getSuccess()) {
                 RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/welcome.jsp");
                 dispatcher.forward(request, response);
             } else {

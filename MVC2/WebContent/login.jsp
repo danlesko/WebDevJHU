@@ -12,7 +12,7 @@
     <head>
 		<meta charset="ISO-8859-1">
         <title>Login JSP Page</title>
-        <jsp:useBean id="login" class="com.dalesko.hw10.Login" scope="session" />
+        <jsp:useBean id="login" class="com.dalesko.hw10.HikeInfo" scope="session" />
     </head>
     <body>
         <h2>Welcome to MVC Model 2 demo</h2>
