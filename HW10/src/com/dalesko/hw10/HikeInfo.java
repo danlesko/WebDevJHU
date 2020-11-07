@@ -1,11 +1,20 @@
 package com.dalesko.hw10;
 
+import java.util.Date;
+
 public class HikeInfo {
 	private String hike = null;
     private String startDate = null;
     private String duration = null;
     private String people = null;
     private String errStr = null;
+	
+	// Initialize Date variables
+	Date jStartDate = null;
+	
+	// Initialize BookingDay variables
+	BookingDay startDay = null;
+	BookingDay endDay = null;
     
 	public String getHike() {
 		return hike;

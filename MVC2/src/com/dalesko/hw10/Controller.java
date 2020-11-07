@@ -23,7 +23,9 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/Controller")	
 public class Controller extends HttpServlet {
     public static final String HIKE= "hike";
-    public static final String PASSWORD = "password";
+    public static final String STARTDATE = "startDate";
+    public static final String DURATION = "duration";
+    public static final String PEOPLE = "people";
     /** 
     * Processes requests for  HTTP <code>GET</code> method.
     * @param request servlet request
@@ -38,20 +40,45 @@ public class Controller extends HttpServlet {
         if (hikeInfo == null) {
             hikeInfo = new HikeInfo();
             session.setAttribute(HIKE, hikeInfo);
-            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/login.jsp");
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/calculator.jsp");
             dispatcher.forward(request, response);
         } else {
-            String name = request.getParameter(HIKE);
-            String password = request.getParameter(PASSWORD);
-            hikeInfo.setName(name);
-            hikeInfo.setPassword(password);
-            if (hikeInfo.getSuccess()) {
-                RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/welcome.jsp");
-                dispatcher.forward(request, response);
-            } else {
-                RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/login.jsp");
-                dispatcher.forward(request, response);
-            }
+        	// Saturate HikeInfo Bean
+            String hike = request.getParameter(HIKE);
+            String startDate = request.getParameter(STARTDATE);
+            String duration = request.getParameter(DURATION);
+            String people = request.getParameter(PEOPLE);
+            
+            if (hike == null && startDate == null && duration == null && people == null) {
+	        	hikeInfo.setErrMsg("Please enter information for your hike.");
+	        } else {
+	        	hikeInfo.setErrMsg(null);
+	        }
+            
+            // TODO update errMsg here
+	        if (hike == null) {
+	          	hike = "1";
+	        }
+	        if (startDate == null) {
+	          	startDate = "2020-04-20";
+	        }
+	        if (duration == null) {
+	          	duration = "3";
+	        }
+	        if (people == null) {
+	          	people = "1";
+	        }
+            
+            
+            hikeInfo.setHike(hike);
+            hikeInfo.setStartDate(startDate);
+            hikeInfo.setDuration(duration);
+            hikeInfo.setPeople(people);
+            
+            hikeInfo.processRequest();
+            
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/results.jsp");
+            dispatcher.forward(request, response);
         }
     } 
 
