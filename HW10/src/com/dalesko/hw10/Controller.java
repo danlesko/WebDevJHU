@@ -37,6 +37,9 @@ public class Controller extends HttpServlet {
         HttpSession session = request.getSession();
         ServletContext servletContext = getServletContext();
         HikeInfo hikeInfo = (HikeInfo) session.getAttribute(HIKE);
+        
+        // If we have not previously been to the calculator, show the calculator page 
+        // This page has the same HTML essentially but no JSP
         if (hikeInfo == null) {
             hikeInfo = new HikeInfo();
             session.setAttribute(HIKE, hikeInfo);
@@ -55,27 +58,30 @@ public class Controller extends HttpServlet {
 	        	hikeInfo.setErrMsg(null);
 	        }
             
-            // TODO update errMsg here
+            // Ask user to enter information for their hike if any of these parameters are empty
+            // Need to do this in order to call the set calls below
 	        if (hike == null) {
-	          	hike = "1";
+	        	hikeInfo.setErrMsg("Please enter information for your hike.");
 	        }
 	        if (startDate == null) {
-	          	startDate = "2020-04-20";
+	        	hikeInfo.setErrMsg("Please enter information for your hike.");
 	        }
 	        if (duration == null) {
-	          	duration = "3";
+	        	hikeInfo.setErrMsg("Please enter information for your hike.");
 	        }
 	        if (people == null) {
-	          	people = "1";
+	        	hikeInfo.setErrMsg("Please enter information for your hike.");
 	        }
             
-            
-            hikeInfo.setHike(hike);
-            hikeInfo.setStartDate(startDate);
-            hikeInfo.setDuration(duration);
-            hikeInfo.setPeople(people);
-            
-            hikeInfo.processRequest();
+	        // Hydrate the bean
+            if(hikeInfo.getErrMsg() == null) {
+	            hikeInfo.setHike(hike);
+	            hikeInfo.setStartDate(startDate);
+	            hikeInfo.setDuration(duration);
+	            hikeInfo.setPeople(people);
+	            
+	            hikeInfo.processRequest();
+            }
             
             RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/results.jsp");
             dispatcher.forward(request, response);

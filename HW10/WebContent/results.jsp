@@ -24,7 +24,7 @@
     <script src="js/scripts.js"></script>
     <title>The Beartooth Hiking Company (BHC)</title>
     <meta name="description" content="The Beartooth Hiking Company (BHC)">
-
+	<jsp:useBean id="hike" class="com.dalesko.hw10.HikeInfo" scope="session" />    
 </head>
 
 <body>
@@ -83,55 +83,72 @@
         </table>
     </div>
     <h5>Rate Calculator</h5>
-    <!-- <form action="Controller" method=GET>
-        userid: <input type="TEXT" name="hike"> <br />
-        password:  <input type="password" name="password"> <br />
-        <input type="SUBMIT">
-    </form> -->
+    <!-- The JSP syntax below ensures that the previously selected hike information persists on the results.jsp page -->
     <form action="Controller" method=GET>
 		<label for="hike">Choose a hike:</label>
-		  <select name="hike" id="hike">
-		    <option value="1">Gardiner Lake</option>
-		    <option value="2">Hellroaring Plateau</option>
-		    <option value="3">The Beaten Path</option>
+		  <select name="hike" id="hike" >
+		    <option value="1" ${hike.hike == '1' ? 'selected' : ''} >Gardiner Lake</option>
+		    <option value="2" ${hike.hike == '2' ? 'selected' : ''} >Hellroaring Plateau</option>
+		    <option value="3" ${hike.hike == '3' ? 'selected' : ''} >The Beaten Path</option>
 		  </select>
 		  <br/>
 		<label for="start">Start date:</label>
 		<input type="date" id="startDate" name="startDate"
-		       min="2020-01-01" max="2025-12-31" required>
+		       min="2020-01-01" max="2025-12-31" value="${hike.startDate}" required>
 		    <br/>   
 		 <label for="duration">Choose a duration:</label>
 		  <select name="duration" id="duration">
-		    <option value="1">1</option>
-		    <option value="2">2</option>
-		    <option selected value="3">3</option>
-		    <option value="4">4</option>
-		    <option value="5">5</option>
-		    <option value="6">6</option>
-		    <option value="7">7</option>
-		    <option value="8">8</option>
-		    <option value="9">9</option>
+		    <option value="1" ${hike.duration == '1' ? 'selected' : ''} >1</option>
+		    <option value="2" ${hike.duration == '2' ? 'selected' : ''} >2</option>
+		    <option value="3" ${hike.duration == '3' ? 'selected' : ''} >3</option>
+		    <option value="4" ${hike.duration == '4' ? 'selected' : ''} >4</option>
+		    <option value="5" ${hike.duration == '5' ? 'selected' : ''} >5</option>
+		    <option value="6" ${hike.duration == '6' ? 'selected' : ''} >6</option>
+		    <option value="7" ${hike.duration == '7' ? 'selected' : ''} >7</option>
+		    <option value="8" ${hike.duration == '8' ? 'selected' : ''} >8</option>
+		    <option value="9" ${hike.duration == '9' ? 'selected' : ''} >9</option>
 		  </select>
 		<br /> 
 		
 		<label for="people">Number of hikers:</label>
 		  <select name="people" id="people">
-		    <option value="1">1</option>
-		    <option value="2">2</option>
-		    <option value="3">3</option>
-		    <option value="4">4</option>
-		    <option value="5">5</option>
-		    <option value="6">6</option>
-		    <option value="7">7</option>
-		    <option value="8">8</option>
-		    <option value="9">9</option>
-		    <option value="10">10</option>
+		    <option value="1" ${hike.people == '1' ? 'selected' : ''} >1</option>
+		    <option value="2" ${hike.people == '2' ? 'selected' : ''} >2</option>
+		    <option value="3" ${hike.people == '3' ? 'selected' : ''} >3</option>
+		    <option value="4" ${hike.people == '4' ? 'selected' : ''} >4</option>
+		    <option value="5" ${hike.people == '5' ? 'selected' : ''} >5</option>
+		    <option value="6" ${hike.people == '6' ? 'selected' : ''} >6</option>
+		    <option value="7" ${hike.people == '7' ? 'selected' : ''} >7</option>
+		    <option value="8" ${hike.people == '8' ? 'selected' : ''} >8</option>
+		    <option value="9" ${hike.people == '9' ? 'selected' : ''} >9</option>
+		    <option value="10" ${hike.people == '10' ? 'selected' : ''}>10</option>
 		  </select>
 		<br /> 
 		
 		<input type="SUBMIT">
 		<input type="reset">
 	</form>
+	<br />
+	<!-- If the error message is set, display it -->
+    <% 
+    if (hike.getErrMsg() != null) {
+    %>
+    <jsp:getProperty name="hike" property="errMsg" /><br />
+    <%    
+    }
+    %>
+    
+    <!-- Otherwise display the cost -->
+    <% 
+    if (hike.getErrMsg() == null) {
+    %>
+    
+    <h5>Total Cost: $<jsp:getProperty name="hike" property="cost" /></h5>
+    <%    
+    }
+    %>
+    
 </div>
 </body>
 </html>
+

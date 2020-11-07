@@ -24,7 +24,7 @@
     <script src="js/scripts.js"></script>
     <title>The Beartooth Hiking Company (BHC)</title>
     <meta name="description" content="The Beartooth Hiking Company (BHC)">
-	<jsp:useBean id="hike" class="com.dalesko.hw10.HikeInfo" scope="session" />    
+
 </head>
 
 <body>
@@ -83,11 +83,6 @@
         </table>
     </div>
     <h5>Rate Calculator</h5>
-    <!-- <form action="Controller" method=GET>
-        userid: <input type="TEXT" name="hike"> <br />
-        password:  <input type="password" name="password"> <br />
-        <input type="SUBMIT">
-    </form> -->
     <form action="Controller" method=GET>
 		<label for="hike">Choose a hike:</label>
 		  <select name="hike" id="hike">
@@ -132,25 +127,6 @@
 		<input type="SUBMIT">
 		<input type="reset">
 	</form>
-	<br />
-    <% 
-    if (hike.getErrMsg() != null) {
-    %>
-    <jsp:getProperty name="hike" property="errMsg" /><br />
-    <%    
-    }
-    %>
-    
-    <% 
-    if (hike.getErrMsg() == null) {
-    %>
-    
-    <h5>Total Cost: <jsp:getProperty name="hike" property="cost" /></h5>
-    <%    
-    }
-    %>
-    
 </div>
 </body>
 </html>
-

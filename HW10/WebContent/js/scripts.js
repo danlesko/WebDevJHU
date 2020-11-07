@@ -60,14 +60,7 @@ $( document ).ready(function() {
 	});
 	
 	// get these DOM elements if they exist
-	var totalCost = parseInt($("#totalCost").text());
 	var numHikers = parseInt($("select#people").val());
-	
-	// set the totalCost
-	// this is really silly to do client side but figured I would just for this assignment
-	if(totalCost){
-		$("#totalCost").text(totalCost*numHikers);
-	}
 	
 	// set the numHikers
 	if(numHikers){
