@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author spiegel
+ * @author dlesko1
  */
 @WebServlet("/ReservationController")	
 public class ReservationController extends HttpServlet {
@@ -46,7 +46,7 @@ public class ReservationController extends HttpServlet {
         if (reservationInfo == null) {
         	reservationInfo = new ReservationInfo();
             session.setAttribute(RESERVATIONINFO, reservationInfo);
-            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/startday.jsp");
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/reservation.jsp");
             dispatcher.forward(request, response);
         } else {
         	// Saturate HikeInfo Bean
@@ -76,7 +76,7 @@ public class ReservationController extends HttpServlet {
             reservationInfo.setStartDate(startDate);
             
             // Send user to reservations.jsp
-            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/reservations.jsp");
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/reservation_results.jsp");
             dispatcher.forward(request, response);
         }
     } 

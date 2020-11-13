@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author spiegel
+ * @author dlesko1
  */
 @WebServlet("/Controller")	
 public class Controller extends HttpServlet {
