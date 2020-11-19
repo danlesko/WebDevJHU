@@ -1,12 +1,15 @@
-package com.dalesko.hw12;
+package com.dalesko.bhc.restAPI;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+
+import com.dalesko.bhc.HikeInfo;
 import com.google.gson.*;
 
 @Path("bhc")
 public class BHCEndpoint {
 	
+	// Create HTML strings to return to client
 	private String tableHtml = "<table>\n" + 
 			"	<tr>\n" + 
 			"		<td>Hike</td>\n" + 
@@ -159,6 +162,7 @@ public class BHCEndpoint {
             hikeInfo.processRequest();
         }
 		
+        // Return HTML table to display results of query
 		return htmlStart + String.format(tableHtml, hikeInfo.getHike(), hikeInfo.getStartDate(), hikeInfo.getDuration(), hikeInfo.getPeople(), hikeInfo.getCost(), hikeInfo.getErrMsg()) + htmlEnd;
 	}
 	

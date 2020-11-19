@@ -1,4 +1,4 @@
-package com.dalesko.hw12;
+package com.dalesko.bhc.restAPI;
 
 import java.util.Set;
 
@@ -16,7 +16,7 @@ public class ApplicationConfig extends Application {
 	
 	// Get the BHC Endpoint and add it to the resources
 	private void addRestResourceClasses(Set<Class<?>> resources) {
-		resources.add(com.dalesko.hw12.BHCEndpoint.class);
+		resources.add(com.dalesko.bhc.restAPI.BHCEndpoint.class);
 	}
 
 }

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.dalesko.hw12;
+package com.dalesko.bhc;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

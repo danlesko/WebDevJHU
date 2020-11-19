@@ -1,4 +1,4 @@
-package com.dalesko.hw12;
+package com.dalesko.bhc.reservation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -3,14 +3,14 @@
  * and open the template in the editor.
  */
 
-package com.dalesko.hw12;
+package com.dalesko.bhc;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.dalesko.hw12.Rates.HIKE;
+import com.dalesko.bhc.Rates.HIKE;
 
 /**
  *

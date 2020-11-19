@@ -12,7 +12,7 @@
  * they run 1-12
  */
 
-package com.dalesko.hw12;
+package com.dalesko.bhc;
 
 import java.util.GregorianCalendar;
 

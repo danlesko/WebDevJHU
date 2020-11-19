@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package com.dalesko.hw12;
+package com.dalesko.bhc.jspImpl;
 
 import java.io.IOException;
 
@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.dalesko.bhc.HikeInfo;
 
 /**
  *
@@ -83,7 +85,7 @@ public class Controller extends HttpServlet {
 	            hikeInfo.processRequest();
             }
             
-            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/results.jsp");
+            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/calculator_results.jsp");
             dispatcher.forward(request, response);
         }
     } 

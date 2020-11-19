@@ -20,7 +20,7 @@
     <script src="js/scripts.js"></script>
     <title>The Beartooth Hiking Company (BHC)</title>
     <meta name="description" content="The Beartooth Hiking Company (BHC)">
-	<jsp:useBean id="reservationInfo" class="com.dalesko.hw12.ReservationInfo" scope="session" />    
+	<jsp:useBean id="reservationInfo" class="com.dalesko.bhc.reservation.ReservationInfo" scope="session" />    
 </head>
 
 <body>
